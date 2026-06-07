@@ -216,6 +216,14 @@ jobs:
           name: cargo-dist-cache
           path: ~/.cargo/bin/
       - run: chmod +x ~/.cargo/bin/dist
+      - name: Clone sibling repos
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd ..
+          if [ ! -d tmnl-protocol ]; then
+            git clone --depth=1 https://github.com/chris-mclennan/tmnl-protocol.git
+          fi
       # Get all the local artifacts for the global tasks to use (for e.g. checksums)
       - name: Fetch local artifacts
         uses: actions/download-artifact@v8
@@ -266,6 +274,14 @@ jobs:
           name: cargo-dist-cache
           path: ~/.cargo/bin/
       - run: chmod +x ~/.cargo/bin/dist
+      - name: Clone sibling repos
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd ..
+          if [ ! -d tmnl-protocol ]; then
+            git clone --depth=1 https://github.com/chris-mclennan/tmnl-protocol.git
+          fi
       # Fetch artifacts from scratch-storage
       - name: Fetch artifacts
         uses: actions/download-artifact@v8
