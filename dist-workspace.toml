@@ -22,6 +22,12 @@ pr-run-mode = "upload"
 # `.github/build-setup.yml` so GitHub doesn't try to interpret it
 # as a standalone workflow.
 github-build-setup = "../build-setup.yml"
+# Permit manual edits to the generated CI file — `dist plan` would
+# otherwise refuse to run when release.yml drifts. The plan job
+# needs its own sibling-clone step (cargo-dist only auto-injects
+# `github-build-setup` into build-local-artifacts), so the file is
+# intentionally out of sync.
+allow-dirty = ["ci"]
 # Path that installers should place binaries in
 install-path = "CARGO_HOME"
 # Whether to install an updater program
