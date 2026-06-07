@@ -3,10 +3,17 @@ name = "mnml-test-cypress"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
+authors = ["Chris McLennan"]
 description = "Cypress test results viewer for mnml — terminal TUI for mochawesome JSON. Shows the pass/fail status of every test, filterable to failures, with spec file:line yank. Runs standalone or as an mnml-hosted pane. The test runner stays in mnml core."
 homepage = "https://mnml.sh"
 repository = "https://github.com/chris-mclennan/mnml-test-cypress"
 readme = "README.md"
+
+[package.metadata.wix]
+upgrade-guid = "76847AAE-D77B-4C20-BF1A-913AA3A1F9B2"
+path-guid = "6B77EB1F-ED0D-443B-B613-101CB3839A56"
+license = false
+eula = false
 
 [[bin]]
 name = "mnml-test-cypress"
@@ -31,3 +38,8 @@ tempfile = "3"
 strip = true
 opt-level = "z"
 lto = true
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

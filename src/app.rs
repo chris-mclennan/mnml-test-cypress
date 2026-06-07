@@ -121,10 +121,7 @@ impl App {
     pub fn focused_test(&self) -> Option<&Test> {
         let row = self.rows.get(self.selected)?;
         let (spec_idx, test_idx) = match row {
-            Row::Test {
-                spec_idx,
-                test_idx,
-            } => (*spec_idx, *test_idx),
+            Row::Test { spec_idx, test_idx } => (*spec_idx, *test_idx),
             _ => return None,
         };
         self.report.specs.get(spec_idx)?.tests.get(test_idx)
@@ -182,7 +179,10 @@ impl App {
             s.passes,
             s.failures,
             s.pending,
-            self.rows.iter().filter(|r| matches!(r, Row::Test { .. })).count(),
+            self.rows
+                .iter()
+                .filter(|r| matches!(r, Row::Test { .. }))
+                .count(),
             s.tests,
             filter,
         );

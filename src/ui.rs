@@ -52,16 +52,13 @@ async fn main_loop(
 
 pub fn draw(f: &mut Frame, app: &App) {
     let area = f.area();
-    let has_error = app
-        .focused_test()
-        .and_then(|t| t.error.as_ref())
-        .is_some();
+    let has_error = app.focused_test().and_then(|t| t.error.as_ref()).is_some();
     let body_constraints = if has_error {
         vec![
-            Constraint::Length(3),  // header
-            Constraint::Min(5),     // tests body
-            Constraint::Length(6),  // error details
-            Constraint::Length(1),  // status / hint
+            Constraint::Length(3), // header
+            Constraint::Min(5),    // tests body
+            Constraint::Length(6), // error details
+            Constraint::Length(1), // status / hint
         ]
     } else {
         vec![
@@ -89,13 +86,21 @@ fn draw_header(f: &mut Frame, area: Rect, app: &App) {
     let s = &app.report.stats;
     let dur = cypress::fmt_duration(s.duration_ms);
     let line = Line::from(vec![
-        Span::styled("🧪 cypress ", Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            "🧪 cypress ",
+            Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::raw(" · "),
         Span::styled(format!("{}p", s.passes), Style::default().fg(Color::Green)),
         Span::raw(" / "),
         Span::styled(format!("{}f", s.failures), Style::default().fg(Color::Red)),
         Span::raw(" / "),
-        Span::styled(format!("{}pending", s.pending), Style::default().fg(Color::Yellow)),
+        Span::styled(
+            format!("{}pending", s.pending),
+            Style::default().fg(Color::Yellow),
+        ),
         Span::raw(" · "),
         Span::styled(dur, Style::default().fg(Color::Gray)),
     ]);
@@ -152,12 +157,18 @@ fn draw_tests(f: &mut Frame, area: Rect, app: &App) {
 fn line_for_row<'a>(app: &'a App, _idx: usize, selected: bool, row: &Row) -> Line<'a> {
     let marker = if selected { "▸" } else { " " };
     let sel_style = if selected {
-        Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)
+        Style::default()
+            .fg(Color::Cyan)
+            .add_modifier(Modifier::BOLD)
     } else {
         Style::default()
     };
     match row {
-        Row::SpecHeader { spec_idx, passed, failed } => {
+        Row::SpecHeader {
+            spec_idx,
+            passed,
+            failed,
+        } => {
             let spec = &app.report.specs[*spec_idx];
             let summary = if *failed > 0 {
                 format!("({passed}p, {failed}f)")
@@ -167,7 +178,10 @@ fn line_for_row<'a>(app: &'a App, _idx: usize, selected: bool, row: &Row) -> Lin
             Line::from(vec![
                 Span::styled(marker, sel_style),
                 Span::raw(" 📄 "),
-                Span::styled(spec.file.clone(), Style::default().add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    spec.file.clone(),
+                    Style::default().add_modifier(Modifier::BOLD),
+                ),
                 Span::raw("  "),
                 Span::styled(summary, Style::default().fg(Color::DarkGray)),
             ])
@@ -190,7 +204,10 @@ fn line_for_row<'a>(app: &'a App, _idx: usize, selected: bool, row: &Row) -> Lin
             };
             Line::from(vec![
                 Span::styled(format!("   {marker}"), sel_style),
-                Span::styled(format!(" {} ", t.state.glyph()), Style::default().fg(glyph_color)),
+                Span::styled(
+                    format!(" {} ", t.state.glyph()),
+                    Style::default().fg(glyph_color),
+                ),
                 Span::styled(t.title.clone(), title_style),
                 Span::raw("  "),
                 Span::styled(
@@ -224,11 +241,8 @@ fn draw_error(f: &mut Frame, area: Rect, app: &App) {
             )));
         }
     }
-    let para = Paragraph::new(lines).block(
-        Block::default()
-            .borders(Borders::ALL)
-            .title(" failure "),
-    );
+    let para =
+        Paragraph::new(lines).block(Block::default().borders(Borders::ALL).title(" failure "));
     f.render_widget(para, area);
 }
 

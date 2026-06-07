@@ -43,7 +43,11 @@ async fn main() -> Result<()> {
         let s = &report.stats;
         println!(
             "  tests={} passes={} failures={} pending={} duration={}",
-            s.tests, s.passes, s.failures, s.pending, cypress::fmt_duration(s.duration_ms)
+            s.tests,
+            s.passes,
+            s.failures,
+            s.pending,
+            cypress::fmt_duration(s.duration_ms)
         );
         println!("  specs: {}", report.specs.len());
         for spec in &report.specs {
